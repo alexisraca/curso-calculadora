@@ -11,13 +11,12 @@ export default class Calculator extends Component {
     }
   }
 
-  clearData() {
-    let pushableHistory = this.state.operation.length ?
-                              this.state.history.push(this.state.operation) :
-                              null
+  clearData(event, pushableHistory = this.state.history) {
+    this.state.operation.length && pushableHistory.push(this.state.operation)
+                              
     this.setState({
       currentValue: "",
-      history: pushableHistory || this.state.history,
+      history: pushableHistory,
       operation: [],
       nextValue: "",
       result: ""
@@ -60,31 +59,48 @@ export default class Calculator extends Component {
   }
 
   render() {
+    console.log(this.state.history)
     return(
-      <div>
-        <div className="viewport">{this.state.currentValue || this.state.result}</div>
-        <div>
-          <button className="clear" onClick={this.clearData.bind(this)}>C</button>
-          <button className="sum" onClick={this.sumEvent.bind(this)}>+</button>
-          <button className="result" onClick={this.resultEvent.bind(this)}>=</button>
+      <div className="container">
+        <div className="body-container">
+          <div className="viewport">
+            <p>
+              {this.state.currentValue || this.state.result}
+            </p>
+          </div>
+          <div className="buttons-container">
+            <button className="clear" onClick={this.clearData.bind(this)}>C</button>
+            <button className="sum" onClick={this.sumEvent.bind(this)}>+</button>
+            <button className="result" onClick={this.resultEvent.bind(this)}>=</button>
+          </div>
+          <div className="buttons-container">
+            <button className="number" onClick={this.buildNumberClick("1")}>1</button>
+            <button className="number" onClick={this.buildNumberClick("2")}>2</button>
+            <button className="number" onClick={this.buildNumberClick("3")}>3</button>
+          </div>
+          <div className="buttons-container">
+            <button className="number" onClick={this.buildNumberClick("4")}>4</button>
+            <button className="number" onClick={this.buildNumberClick("5")}>5</button>
+            <button className="number" onClick={this.buildNumberClick("6")}>6</button>
+          </div>
+          <div className="buttons-container">
+            <button className="number" onClick={this.buildNumberClick("7")}>7</button>
+            <button className="number" onClick={this.buildNumberClick("8")}>8</button>
+            <button className="number" onClick={this.buildNumberClick("9")}>9</button>
+          </div>
+          <div className="buttons-container">
+            <button className="number" onClick={this.buildNumberClick("0")}>0</button>
+          </div>
         </div>
-        <div>
-          <button className="number" onClick={this.buildNumberClick("1")}>1</button>
-          <button className="number" onClick={this.buildNumberClick("2")}>2</button>
-          <button className="number" onClick={this.buildNumberClick("3")}>3</button>
-        </div>
-        <div>
-          <button className="number" onClick={this.buildNumberClick("4")}>4</button>
-          <button className="number" onClick={this.buildNumberClick("5")}>5</button>
-          <button className="number" onClick={this.buildNumberClick("6")}>6</button>
-        </div>
-        <div>
-          <button className="number" onClick={this.buildNumberClick("7")}>7</button>
-          <button className="number" onClick={this.buildNumberClick("8")}>8</button>
-          <button className="number" onClick={this.buildNumberClick("9")}>9</button>
-        </div>
-        <div>
-          <button className="number" onClick={this.buildNumberClick("0")}>0</button>
+        <div className="history">
+          <h5>
+            HISTORIAL
+          </h5>
+          {
+            this.state.history.map((x, index) => {
+              return(<p className="history-element" key={index}>{x.join("")}</p>)
+            })
+          }
         </div>
       </div>
     )
